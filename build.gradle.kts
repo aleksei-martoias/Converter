@@ -1,6 +1,9 @@
-buildscript {
-    val kotlinVersion by rootProject.extra { "1.3.50" }
+plugins {
+    id("org.jlleitschuh.gradle.ktlint") version BuildPluginsVersion.KTLINT
+    id("io.gitlab.arturbosch.detekt") version BuildPluginsVersion.DETEKT
+}
 
+buildscript {
     repositories {
         google()
         jcenter()
@@ -8,24 +11,40 @@ buildscript {
     }
 
     dependencies {
-        classpath ("com.android.tools.build:gradle:3.5.3")
-        classpath ("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
-        classpath("org.jlleitschuh.gradle:ktlint-gradle:<current_version>")
+        classpath ("com.android.tools.build:gradle:${BuildPluginsVersion.BUILD_GRADLE}")
+        classpath ("org.jetbrains.kotlin:kotlin-gradle-plugin:${BuildPluginsVersion.KOTLIN}")
+        classpath("org.jlleitschuh.gradle:ktlint-gradle:${BuildPluginsVersion.KTLINT}")
+        classpath("io.gitlab.arturbosch.detekt:detekt-gradle-plugin:${BuildPluginsVersion.DETEKT}")
     }
-}
-
-plugins {
-    id("org.jlleitschuh.gradle.ktlint") version("9.2.1")
 }
 
 allprojects {
     repositories {
         google()
         jcenter()
-        
     }
 }
 
-tasks.register("clean",Delete::class){
+subprojects {
+    apply {
+        plugin("org.jlleitschuh.gradle.ktlint")
+        plugin("io.gitlab.arturbosch.detekt")
+    }
+
+    detekt {
+        config = rootProject.files("config/detekt/detekt.yml")
+
+        reports {
+            txt.enabled = false
+            xml.enabled = false
+            html {
+                enabled = true
+                destination = file("build/reports/detekt/detekt.html")
+            }
+        }
+    }
+}
+
+tasks.register("clean", Delete::class){
     delete(rootProject.buildDir)
 }
