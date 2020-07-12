@@ -8,11 +8,12 @@ buildscript {
         google()
         jcenter()
         maven("https://plugins.gradle.org/m2/")
+        maven("https://oss.jfrog.org/libs-snapshot")
     }
 
     dependencies {
-        classpath ("com.android.tools.build:gradle:${BuildPluginsVersion.BUILD_GRADLE}")
-        classpath ("org.jetbrains.kotlin:kotlin-gradle-plugin:${BuildPluginsVersion.KOTLIN}")
+        classpath("com.android.tools.build:gradle:${BuildPluginsVersion.BUILD_GRADLE}")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${BuildPluginsVersion.KOTLIN}")
         classpath("org.jlleitschuh.gradle:ktlint-gradle:${BuildPluginsVersion.KTLINT}")
         classpath("io.gitlab.arturbosch.detekt:detekt-gradle-plugin:${BuildPluginsVersion.DETEKT}")
     }
@@ -45,6 +46,6 @@ subprojects {
     }
 }
 
-tasks.register("clean", Delete::class){
+tasks.register("clean", Delete::class) {
     delete(rootProject.buildDir)
 }

@@ -2,6 +2,7 @@ plugins {
     id("com.android.application")
     kotlin("android")
     kotlin("android.extensions")
+    kotlin("kapt")
 }
 
 android {
@@ -38,13 +39,19 @@ dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:${BuildPluginsVersion.KOTLIN}")
 
+    implementation(Libs.RX_JAVA)
+    implementation(Libs.OKHTTP)
+    implementation(Libs.GSON)
+
     implementation(SupportLibs.ANDROIDX_APPCOMPAT)
     implementation(SupportLibs.ANDROIDX_CORE_KTX)
     implementation(SupportLibs.ANDROIDX_CONSTRAINT_LAYOUT)
 
     testImplementation(TestingLib.JUNIT)
+    testImplementation(TestingLib.MOCKK)
 
-    androidTestImplementation(AndroidTestingLib.ANDROIDX_TEST_EXT_JUNIT)
-    androidTestImplementation(AndroidTestingLib.ANDROIDX_TEST_RULES)
-    androidTestImplementation(AndroidTestingLib.ESPRESSO_CORE)
+    testImplementation(AndroidTestingLib.ANDROIDX_TEST_EXT_JUNIT)
+    testImplementation(AndroidTestingLib.ANDROIDX_TEST_RUNNER)
+    testImplementation(AndroidTestingLib.ANDROIDX_TEST_RULES)
+    testImplementation(AndroidTestingLib.ESPRESSO_CORE)
 }

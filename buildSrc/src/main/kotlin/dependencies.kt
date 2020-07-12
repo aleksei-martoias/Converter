@@ -5,13 +5,27 @@ object Sdk {
 }
 
 object Versions {
+    const val RX_JAVA = "3.0.4"
+    const val OKHTTP = "4.7.2"
+    const val GSON = "2.8.6"
+
     const val ANDROIDX_TEST_EXT = "1.1.1"
     const val ANDROIDX_TEST = "1.2.0"
+
     const val APPCOMPAT = "1.1.0"
     const val CONSTRAINT_LAYOUT = "1.1.3"
+
     const val CORE_KTX = "1.3.0"
+
     const val ESPRESSO_CORE = "3.2.0"
     const val JUNIT = "4.13"
+    const val MOCKK = "1.10.0"
+}
+
+object Libs {
+    const val RX_JAVA = "io.reactivex.rxjava3:rxjava:${Versions.RX_JAVA}"
+    const val OKHTTP = "com.squareup.okhttp3:okhttp:${Versions.OKHTTP}"
+    const val GSON = "com.google.code.gson:gson:${Versions.GSON}"
 }
 
 object BuildPluginsVersion {
@@ -29,6 +43,7 @@ object SupportLibs {
 
 object TestingLib {
     const val JUNIT = "junit:junit:${Versions.JUNIT}"
+    const val MOCKK = "io.mockk:mockk:${Versions.MOCKK}"
 }
 
 object AndroidTestingLib {
