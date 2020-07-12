@@ -1,6 +1,7 @@
-package com.alekseimy.converter.data.rates.network
+package com.alekseimy.converter.data.network
 
-import com.alekseimy.converter.data.rates.dto.RatesDTO
+import com.alekseimy.converter.data.dto.RatesDTO
+import com.alekseimy.converter.data.repository.RatesApi
 import com.google.gson.Gson
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -8,14 +9,14 @@ import okhttp3.ResponseBody
 import java.io.IOException
 import java.util.Currency
 
-class RelativeRatesApi(
+class RevolutRatesApi(
     private val client: OkHttpClient,
     private val gson: Gson
-) {
+) : RatesApi {
     private val baseUrl = "https://hiring.revolut.codes/api/android"
 
     @Throws(IOException::class, IllegalStateException::class)
-    fun requestLatestRates(baseCurrency: Currency): RatesDTO {
+    override fun requestLatestRates(baseCurrency: Currency): RatesDTO {
         val request = buildRequest(baseCurrency)
 
         return client.newCall(request).execute().use { response ->

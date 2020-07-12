@@ -1,6 +1,6 @@
-package com.alekseimy.converter.data.rates.network
+package com.alekseimy.converter.data.network
 
-import com.alekseimy.converter.data.rates.dto.RatesDTO
+import com.alekseimy.converter.data.dto.RatesDTO
 import com.google.gson.Gson
 import io.mockk.every
 import io.mockk.just
@@ -21,7 +21,7 @@ import java.io.Reader
 import java.io.StringReader
 import java.util.Currency
 
-class RelativeRatesApiTest {
+class RevolutRatesApiTest {
 
     private val stubCurrency = spyk(Currency.getInstance("USD"))
 
@@ -37,11 +37,11 @@ class RelativeRatesApiTest {
 
     private val gson: Gson = mockk()
 
-    private lateinit var relativeRatesApi: RelativeRatesApi
+    private lateinit var revolutRatesApi: RevolutRatesApi
 
     @Before
     fun setUp() {
-        relativeRatesApi = RelativeRatesApi(client, gson)
+        revolutRatesApi = RevolutRatesApi(client, gson)
     }
 
     @Test
@@ -54,7 +54,7 @@ class RelativeRatesApiTest {
         val requestSlot = slot<Request>()
         every { client.newCall(capture(requestSlot)) } returns call
 
-        val responseData = relativeRatesApi.requestLatestRates(stubCurrency)
+        val responseData = revolutRatesApi.requestLatestRates(stubCurrency)
 
         Assert.assertEquals(ratesResponseMock, responseData)
         verify(exactly = 1) {
@@ -81,7 +81,7 @@ class RelativeRatesApiTest {
         every { client.newCall(capture(requestSlot)) } returns call
 
         try {
-            relativeRatesApi.requestLatestRates(stubCurrency)
+            revolutRatesApi.requestLatestRates(stubCurrency)
         } catch (illegalStateExc: IllegalStateException) {
             // expected
         }
