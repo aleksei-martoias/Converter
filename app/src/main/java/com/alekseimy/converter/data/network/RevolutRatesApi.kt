@@ -10,8 +10,8 @@ import java.io.IOException
 import java.util.Currency
 
 class RevolutRatesApi(
-    private val client: OkHttpClient,
-    private val gson: Gson
+    private val client: OkHttpClient = OkHttpClient(),
+    private val gson: Gson = Gson()
 ) : RatesApi {
     private val baseUrl = "https://hiring.revolut.codes/api/android"
 

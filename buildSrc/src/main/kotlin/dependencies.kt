@@ -6,6 +6,7 @@ object Sdk {
 
 object Versions {
     const val RX_JAVA = "3.0.4"
+    const val RX_JAVA_ANDROID = "3.0.0"
     const val OKHTTP = "4.7.2"
     const val GSON = "2.8.6"
 
@@ -14,6 +15,7 @@ object Versions {
 
     const val APPCOMPAT = "1.1.0"
     const val CONSTRAINT_LAYOUT = "1.1.3"
+    const val RECYCLER_VIEW = "1.1.0"
 
     const val CORE_KTX = "1.3.0"
 
@@ -24,6 +26,7 @@ object Versions {
 
 object Libs {
     const val RX_JAVA = "io.reactivex.rxjava3:rxjava:${Versions.RX_JAVA}"
+    const val RX_JAVA_ANDROID = "io.reactivex.rxjava3:rxandroid:${Versions.RX_JAVA_ANDROID}"
     const val OKHTTP = "com.squareup.okhttp3:okhttp:${Versions.OKHTTP}"
     const val GSON = "com.google.code.gson:gson:${Versions.GSON}"
 }
@@ -37,7 +40,8 @@ object BuildPluginsVersion {
 
 object SupportLibs {
     const val ANDROIDX_APPCOMPAT = "androidx.appcompat:appcompat:${Versions.APPCOMPAT}"
-    const val ANDROIDX_CONSTRAINT_LAYOUT = "com.android.support.constraint:constraint-layout:${Versions.CONSTRAINT_LAYOUT}"
+    const val ANDROIDX_CONSTRAINT_LAYOUT = "androidx.constraintlayout:constraintlayout:${Versions.CONSTRAINT_LAYOUT}"
+    const val ANDROIDX_RECYCLER_VIEW = "androidx.recyclerview:recyclerview:${Versions.RECYCLER_VIEW}"
     const val ANDROIDX_CORE_KTX = "androidx.core:core-ktx:${Versions.CORE_KTX}"
 }
 

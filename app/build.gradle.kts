@@ -18,11 +18,6 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-
     buildTypes {
         getByName("release") {
             isMinifyEnabled = true
@@ -40,12 +35,14 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:${BuildPluginsVersion.KOTLIN}")
 
     implementation(Libs.RX_JAVA)
+    implementation(Libs.RX_JAVA_ANDROID)
     implementation(Libs.OKHTTP)
     implementation(Libs.GSON)
 
     implementation(SupportLibs.ANDROIDX_APPCOMPAT)
     implementation(SupportLibs.ANDROIDX_CORE_KTX)
     implementation(SupportLibs.ANDROIDX_CONSTRAINT_LAYOUT)
+    implementation(SupportLibs.ANDROIDX_RECYCLER_VIEW)
 
     testImplementation(TestingLib.JUNIT)
     testImplementation(TestingLib.MOCKK)

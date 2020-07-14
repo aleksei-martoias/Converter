@@ -1,6 +1,6 @@
 package com.alekseimy.converter.data.dto
 
-import com.alekseimy.converter.domain.RelativeRate
+import com.alekseimy.converter.model.Rates
 import com.google.gson.annotations.SerializedName
 import java.math.BigDecimal
 import java.util.Currency
@@ -11,20 +11,15 @@ data class RatesDTO(
     val rates: Map<String?, String?>?
 )
 
-fun RatesDTO.toRates(): List<RelativeRate> {
-    val baseCurrency = baseCurrency
-        ?.let{
-            Currency.getInstance(baseCurrency)
-        }
-        ?: return emptyList()
-
-    return rates
+fun RatesDTO.toRates(): Rates? {
+    val baseCurrency = baseCurrency?.toCurrency() ?: return null
+    val r = HashMap<Currency, BigDecimal>()
+    rates?.entries
         ?.filter { it.key != null && it.value != null }
-        ?.map {
-            RelativeRate(
-                currency = Currency.getInstance(it.key!!),
-                relativelyToCurrency = baseCurrency,
-                rate = BigDecimal(it.value!!)
-            )
-        }?.toList() ?: emptyList()
+        ?.associateTo(r) { it.key!!.toCurrency() to BigDecimal(it.value) }
+        ?: return null
+
+    return Rates(baseCurrency, r)
 }
+
+private fun String.toCurrency() = Currency.getInstance(this)
