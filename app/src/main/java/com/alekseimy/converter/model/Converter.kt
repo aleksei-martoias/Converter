@@ -15,7 +15,7 @@ import kotlin.concurrent.withLock
 
 // TODO Rename to Converter
 class Converter(
-    private val ratesRepo: RatesRepo = RatesRepoImpl(),
+    private val ratesRepo: RatesRepo,
     private val updateRateInterval: Long = TimeUnit.SECONDS.toMillis(10),
     initialConversionAmount: BigDecimal = BigDecimal.ONE,
     initialConversionTarget: Currency = Currency.getInstance("USD")
@@ -41,15 +41,15 @@ class Converter(
     private var refCount = 0
     private val subscriptionLock = ReentrantLock()
     private val modificationLock = ReentrantLock()
-    private val relativeCurrencies = LinkedList<RelativeCurrencyAmount>()
+    private val relativeCurrencies = LinkedList<RelativeCurrency>()
     private var convertingAmount: BigDecimal = initialConversionAmount
     private var latestFetchedRates: Rates? = null
 
     private var relativeRatesSubscription = SerialDisposable()
-    private val relativeCurrenciesSubject = BehaviorSubject.create<List<RelativeCurrencyAmount>>()
+    private val relativeCurrenciesSubject = BehaviorSubject.create<List<RelativeCurrency>>()
 
     init {
-        relativeCurrencies.add(RelativeCurrencyAmount(initialConversionTarget, initialConversionAmount))
+        relativeCurrencies.add(RelativeCurrency(initialConversionTarget, initialConversionAmount))
         relativeCurrenciesSubject.onNext(relativeCurrencies)
     }
 
@@ -63,7 +63,7 @@ class Converter(
         }
     }
 
-    fun observeRelativeCurrencies(): Observable<List<RelativeCurrencyAmount>> {
+    fun observeRelativeCurrencies(): Observable<List<RelativeCurrency>> {
         return relativeCurrenciesSubject
             .doOnSubscribe {
                 subscriptionLock.withLock {
@@ -128,7 +128,7 @@ class Converter(
 
         // any missed currency will be added
         fetchedRatesCopy.ratesToBaseCurrency.forEach { missedCurrency ->
-            relativeCurrencies.add(RelativeCurrencyAmount(missedCurrency.key, missedCurrency.value))
+            relativeCurrencies.add(RelativeCurrency(missedCurrency.key, missedCurrency.value))
         }
     }
 

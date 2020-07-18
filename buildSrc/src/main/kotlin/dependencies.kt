@@ -9,6 +9,7 @@ object Versions {
     const val RX_JAVA_ANDROID = "3.0.0"
     const val OKHTTP = "4.7.2"
     const val GSON = "2.8.6"
+    const val KOIN = "2.1.5"
 
     const val ANDROIDX_TEST_EXT = "1.1.1"
     const val ANDROIDX_TEST = "1.2.0"
@@ -29,6 +30,7 @@ object Libs {
     const val RX_JAVA_ANDROID = "io.reactivex.rxjava3:rxandroid:${Versions.RX_JAVA_ANDROID}"
     const val OKHTTP = "com.squareup.okhttp3:okhttp:${Versions.OKHTTP}"
     const val GSON = "com.google.code.gson:gson:${Versions.GSON}"
+    const val KOIN = "org.koin:koin-android:${Versions.KOIN}"
 }
 
 object BuildPluginsVersion {

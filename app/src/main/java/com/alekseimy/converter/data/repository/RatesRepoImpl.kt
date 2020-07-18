@@ -13,7 +13,7 @@ import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.TimeUnit
 
 class RatesRepoImpl(
-    private val ratesApi: RatesApi = RevolutRatesApi()
+    private val ratesApi: RatesApi
 ): RatesRepo {
 
     /**

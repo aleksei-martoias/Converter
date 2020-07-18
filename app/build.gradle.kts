@@ -43,6 +43,7 @@ dependencies {
     implementation(Libs.RX_JAVA_ANDROID)
     implementation(Libs.OKHTTP)
     implementation(Libs.GSON)
+    implementation(Libs.KOIN)
 
     implementation(SupportLibs.ANDROIDX_APPCOMPAT)
     implementation(SupportLibs.ANDROIDX_CORE_KTX)
