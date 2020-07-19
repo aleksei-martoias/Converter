@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.konan.properties.loadProperties
+
 plugins {
     id("com.android.application")
     kotlin("android")
@@ -23,14 +25,34 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
 
+    signingConfigs {
+        create("release") {
+            val properties = loadProperties(rootProject.file("\\signing.properties").path)
+
+            /**
+             * file signing.properties with content
+             * keyAlias=aliasName
+             * ...
+             * has to be created in root dir to run release build
+             */
+            keyAlias = properties["keyAlias"] as String
+            keyPassword = properties["keyPassword"] as String
+            storeFile = file(properties["storeFilePath"] as String)
+            storePassword = properties["storePassword"] as String
+        }
+    }
+
     buildTypes {
         getByName("release") {
             isMinifyEnabled = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            signingConfig = signingConfigs.getByName("release")
+            isDebuggable = false
         }
 
         getByName("debug") {
             isMinifyEnabled = false
+            isDebuggable = true
         }
     }
 }
