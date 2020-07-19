@@ -54,8 +54,10 @@ dependencies {
     testImplementation(TestingLib.JUNIT)
     testImplementation(TestingLib.MOCKK)
 
-    testImplementation(AndroidTestingLib.ANDROIDX_TEST_EXT_JUNIT)
-    testImplementation(AndroidTestingLib.ANDROIDX_TEST_RUNNER)
-    testImplementation(AndroidTestingLib.ANDROIDX_TEST_RULES)
-    testImplementation(AndroidTestingLib.ESPRESSO_CORE)
+    androidTestImplementation(TestingLib.JUNIT)
+    androidTestImplementation(AndroidTestingLib.ANDROIDX_TEST_EXT_JUNIT)
+    androidTestImplementation(AndroidTestingLib.ANDROIDX_TEST_RUNNER)
+    androidTestImplementation(AndroidTestingLib.ANDROIDX_TEST_RULES)
+    androidTestImplementation(AndroidTestingLib.ESPRESSO_CORE)
+    androidTestImplementation(AndroidTestingLib.OKHTTP_MOCK)
 }

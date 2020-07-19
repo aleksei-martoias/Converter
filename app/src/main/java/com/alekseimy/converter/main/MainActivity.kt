@@ -1,7 +1,8 @@
-package com.alekseimy.converter
+package com.alekseimy.converter.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.alekseimy.converter.R
 import com.alekseimy.converter.presentation.ConvertedCurrencyFragment
 
 class MainActivity : AppCompatActivity() {

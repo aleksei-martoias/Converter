@@ -14,9 +14,11 @@ import java.util.concurrent.TimeUnit
 import java.util.concurrent.locks.ReentrantLock
 import kotlin.concurrent.withLock
 
+private const val DEFAULT_UPDATE_INTERVAL_IN_SECONDS = 1L
+
 class Converter(
     private val ratesRepo: RatesRepo,
-    private val updateRateInterval: Long = TimeUnit.SECONDS.toMillis(5),
+    private val updateRateInterval: Long = TimeUnit.SECONDS.toMillis(DEFAULT_UPDATE_INTERVAL_IN_SECONDS),
     initialConversionAmount: BigDecimal = BigDecimal.ONE,
     initialConversionTarget: Currency = Currency.getInstance("USD")
 ) {
