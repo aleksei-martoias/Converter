@@ -1,5 +1,5 @@
 object Sdk {
-    const val MIN_SDK_VERSION = 23
+    const val MIN_SDK_VERSION = 24
     const val TARGET_SDK_VERSION = 29
     const val COMPILE_SDK_VERSION = 29
 }
@@ -10,6 +10,7 @@ object Versions {
     const val OKHTTP = "4.7.2"
     const val GSON = "2.8.6"
     const val KOIN = "2.1.5"
+    const val GLIDE = "4.11.0"
 
     const val ANDROIDX_TEST_EXT = "1.1.1"
     const val ANDROIDX_TEST = "1.2.0"
@@ -31,6 +32,7 @@ object Libs {
     const val OKHTTP = "com.squareup.okhttp3:okhttp:${Versions.OKHTTP}"
     const val GSON = "com.google.code.gson:gson:${Versions.GSON}"
     const val KOIN = "org.koin:koin-android:${Versions.KOIN}"
+    const val GLIDE = "com.github.bumptech.glide:glide:${Versions.GLIDE}"
 }
 
 object BuildPluginsVersion {
@@ -38,6 +40,7 @@ object BuildPluginsVersion {
     const val KOTLIN = "1.3.72"
     const val KTLINT = "9.2.1"
     const val BUILD_GRADLE = "3.5.3"
+    const val BUILD_TOOLS_VERSION = "29.0.3"
 }
 
 object SupportLibs {

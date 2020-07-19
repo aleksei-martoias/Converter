@@ -7,7 +7,7 @@ plugins {
 
 android {
     compileSdkVersion(Sdk.COMPILE_SDK_VERSION)
-    buildToolsVersion = "29.0.3"
+    buildToolsVersion = BuildPluginsVersion.BUILD_TOOLS_VERSION
 
     defaultConfig {
         applicationId = "com.alekseimy.converter"
@@ -44,6 +44,7 @@ dependencies {
     implementation(Libs.OKHTTP)
     implementation(Libs.GSON)
     implementation(Libs.KOIN)
+    implementation(Libs.GLIDE)
 
     implementation(SupportLibs.ANDROIDX_APPCOMPAT)
     implementation(SupportLibs.ANDROIDX_CORE_KTX)

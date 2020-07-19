@@ -1,7 +1,7 @@
-package com.alekseimy.converter.data.network
+package com.alekseimy.converter.data.rates.network
 
-import com.alekseimy.converter.data.dto.RatesDTO
-import com.alekseimy.converter.data.repository.RatesApi
+import com.alekseimy.converter.data.rates.dto.RatesDTO
+import com.alekseimy.converter.data.rates.repository.RatesApi
 import com.google.gson.Gson
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -10,8 +10,8 @@ import java.io.IOException
 import java.util.Currency
 
 class RevolutRatesApi(
-    private val client: OkHttpClient = OkHttpClient(),
-    private val gson: Gson = Gson()
+    private val client: OkHttpClient,
+    private val gson: Gson
 ) : RatesApi {
     private val baseUrl = "https://hiring.revolut.codes/api/android"
 

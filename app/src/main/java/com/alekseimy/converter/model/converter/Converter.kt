@@ -1,7 +1,8 @@
-package com.alekseimy.converter.model
+package com.alekseimy.converter.model.converter
 
 import android.util.Log
-import com.alekseimy.converter.data.repository.RatesRepoImpl
+import com.alekseimy.converter.model.rates.Rates
+import com.alekseimy.converter.model.rates.RatesRepo
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.SerialDisposable
 import io.reactivex.rxjava3.subjects.BehaviorSubject
@@ -13,57 +14,72 @@ import java.util.concurrent.TimeUnit
 import java.util.concurrent.locks.ReentrantLock
 import kotlin.concurrent.withLock
 
-// TODO Rename to Converter
 class Converter(
     private val ratesRepo: RatesRepo,
-    private val updateRateInterval: Long = TimeUnit.SECONDS.toMillis(10),
+    private val updateRateInterval: Long = TimeUnit.SECONDS.toMillis(5),
     initialConversionAmount: BigDecimal = BigDecimal.ONE,
     initialConversionTarget: Currency = Currency.getInstance("USD")
 ) {
 
-    var conversionTarget: Currency = initialConversionTarget
+
+    /**
+     * [Currency.getInstance] always returns single instance from instances HashMap
+     * and uses default equals with links comparison,
+     * so it allows to compare keys as fast and precisely as possible
+     */
+    var conversionTarget: ConvertedCurrency =
+        ConvertedCurrency(
+            initialConversionTarget,
+            initialConversionAmount
+        )
         set(value) {
             modificationLock.withLock {
-                if (value.currencyCode == field.currencyCode) {
+                if (value.currency == field.currency) {
                     return
                 }
 
                 field = value
+                convertingAmount = value.relativeAmount
                 reorderRelativeCurrencies()
                 sendUpdate()
                 resubscribeOnRates()
             }
         }
 
-    // if some field is changed under ReentrantLock it will be synchronized in memory
+    // if some field is changed under lock it will be synchronized in memory
     // so volatile isn't required for field
     // in addition, all changes will be atomic because are done under lock
     private var refCount = 0
     private val subscriptionLock = ReentrantLock()
     private val modificationLock = ReentrantLock()
-    private val relativeCurrencies = LinkedList<RelativeCurrency>()
+    private val convertedCurrencies = LinkedList<ConvertedCurrency>()
     private var convertingAmount: BigDecimal = initialConversionAmount
     private var latestFetchedRates: Rates? = null
 
     private var relativeRatesSubscription = SerialDisposable()
-    private val relativeCurrenciesSubject = BehaviorSubject.create<List<RelativeCurrency>>()
+    private val relativeCurrenciesSubject = BehaviorSubject.create<List<ConvertedCurrency>>()
 
     init {
-        relativeCurrencies.add(RelativeCurrency(initialConversionTarget, initialConversionAmount))
-        relativeCurrenciesSubject.onNext(relativeCurrencies)
+        convertedCurrencies.add(
+            ConvertedCurrency(
+                initialConversionTarget,
+                initialConversionAmount
+            )
+        )
+        relativeCurrenciesSubject.onNext(convertedCurrencies)
     }
 
     fun updateConversionAmount(amount: BigDecimal) = modificationLock.withLock {
         convertingAmount = amount
         latestFetchedRates?.let {
-            if (it.baseCurrency == conversionTarget) {
+            if (it.baseCurrency == conversionTarget.currency) {
                 convertExceptFirst(it)
                 sendUpdate()
             }
         }
     }
 
-    fun observeRelativeCurrencies(): Observable<List<RelativeCurrency>> {
+    fun observeConvertedCurrencies(): Observable<List<ConvertedCurrency>> {
         return relativeCurrenciesSubject
             .doOnSubscribe {
                 subscriptionLock.withLock {
@@ -92,7 +108,7 @@ class Converter(
         relativeRatesSubscription.set(
             ratesRepo
                 .observeRates(
-                    baseCurrency = conversionTarget,
+                    baseCurrency = conversionTarget.currency,
                     withIntervalMs = updateRateInterval
                 )
                 .onBackpressureLatest()
@@ -116,9 +132,9 @@ class Converter(
         val fetchedRatesCopy = fetchedRates.copy()
 
         // any currency which has become unsupported will be removed
-        val ratesIterator = relativeCurrencies.iterator()
+        val ratesIterator = convertedCurrencies.iterator()
         val target = ratesIterator.next()
-        assert(target.currency == conversionTarget)
+        assert(target.currency == conversionTarget.currency )
         while (ratesIterator.hasNext()) {
             val current = ratesIterator.next()
             fetchedRatesCopy.ratesToBaseCurrency
@@ -128,26 +144,31 @@ class Converter(
 
         // any missed currency will be added
         fetchedRatesCopy.ratesToBaseCurrency.forEach { missedCurrency ->
-            relativeCurrencies.add(RelativeCurrency(missedCurrency.key, missedCurrency.value))
+            convertedCurrencies.add(
+                ConvertedCurrency(
+                    missedCurrency.key,
+                    missedCurrency.value
+                )
+            )
         }
     }
 
     private fun sendUpdate() {
-        if (relativeCurrencies.isEmpty()) {
+        if (convertedCurrencies.isEmpty()) {
             Log.d("$this", "can not send update")
             return
         }
 
-        relativeCurrenciesSubject.onNext(relativeCurrencies)
+        relativeCurrenciesSubject.onNext(convertedCurrencies)
     }
 
     private fun convertExceptFirst(fetchedRates: Rates) {
-        val iterator = relativeCurrencies.listIterator()
+        val iterator = convertedCurrencies.listIterator()
         while (iterator.hasNext()) {
             val current = iterator.next()
             val replacement = fetchedRates.ratesToBaseCurrency[current.currency]
                 ?.let { current.copy(relativeAmount = convertingAmount.multiply(it)) }
-                ?: current
+                ?: current.copy(relativeAmount = convertingAmount.multiply(BigDecimal.ONE))
             iterator.set(replacement)
         }
     }
@@ -161,10 +182,10 @@ class Converter(
     }
 
     private fun reorderRelativeCurrencies() {
-        val indexOfNewFirst = relativeCurrencies.indexOfFirst { it.currency == conversionTarget }
+        val indexOfNewFirst = convertedCurrencies.indexOfFirst { it.currency == conversionTarget.currency }
         if (indexOfNewFirst == -1) {
             throw IllegalStateException("relativeCurrencies has to contain item with conversionTarget")
         }
-        relativeCurrencies.addFirst(relativeCurrencies.removeAt(indexOfNewFirst))
+        convertedCurrencies.addFirst(convertedCurrencies.removeAt(indexOfNewFirst))
     }
 }

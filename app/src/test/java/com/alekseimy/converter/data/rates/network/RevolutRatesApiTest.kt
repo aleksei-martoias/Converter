@@ -1,6 +1,6 @@
-package com.alekseimy.converter.data.network
+package com.alekseimy.converter.data.rates.network
 
-import com.alekseimy.converter.data.dto.RatesDTO
+import com.alekseimy.converter.data.rates.dto.RatesDTO
 import com.google.gson.Gson
 import io.mockk.every
 import io.mockk.just

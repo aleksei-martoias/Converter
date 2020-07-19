@@ -1,6 +1,6 @@
-package com.alekseimy.converter.data.repository
+package com.alekseimy.converter.data.rates.repository
 
-import com.alekseimy.converter.data.dto.RatesDTO
+import com.alekseimy.converter.data.rates.dto.RatesDTO
 import java.io.IOException
 import java.util.Currency
 
