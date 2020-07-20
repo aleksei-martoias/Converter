@@ -33,6 +33,7 @@ class ConvertedCurrenciesView(
                 ConvertedCurrenciesAdapter.Listener {
                 override fun onItemClick(rates: ConvertedCurrency) {
                     actions?.onRateClick(rates)
+                    ratesList.scrollToPosition(0)
                 }
 
                 override fun onAmountChanged(amount: String) {
@@ -55,7 +56,7 @@ class ConvertedCurrenciesView(
 
     fun showRates(rates: List<ConvertedCurrency>) {
         adapter.update(rates)
-        ratesList.scrollToPosition(0)
+        // ratesList.scrollToPosition(0)
     }
 
     fun setActions(actions: Actions) {

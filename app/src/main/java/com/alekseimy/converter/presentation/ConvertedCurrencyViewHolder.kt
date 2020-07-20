@@ -28,11 +28,11 @@ class ConvertedCurrencyViewHolder(
     private var canListenUserInput = true
 
     fun bind(convertedCurrency: ConvertedCurrency) {
-        // load flag
         currencyCode.text = convertedCurrency.currency.currencyCode
         currencyDescription.text = convertedCurrency.currency.displayName
         amountInput.updateText(convertedCurrency.relativeAmount.toText())
 
+        // TODO move
         Glide.with(context)
             .load("https://www.countryflags.io/${convertedCurrency.currency.currencyCode.substring(0, 2)}/flat/64.png")
             .transform(CircleCrop())
