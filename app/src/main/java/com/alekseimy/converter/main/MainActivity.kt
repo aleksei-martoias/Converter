@@ -13,7 +13,11 @@ class MainActivity : AppCompatActivity() {
 
         if (supportFragmentManager.findFragmentByTag(ConvertedCurrenciesFragment.TAG) == null) {
             supportFragmentManager.beginTransaction()
-                .add(R.id.fragment_container, ConvertedCurrenciesFragment.newInstance(), ConvertedCurrenciesFragment.TAG)
+                .add(
+                    R.id.fragment_container,
+                    ConvertedCurrenciesFragment.newInstance(),
+                    ConvertedCurrenciesFragment.TAG
+                )
                 .commitAllowingStateLoss()
         }
     }

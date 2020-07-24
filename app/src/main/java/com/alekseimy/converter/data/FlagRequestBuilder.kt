@@ -13,10 +13,10 @@ class FlagRequestBuilder private constructor() {
         SHINY("shiny")
     }
 
-    enum class FlagSize(val code: Int) {
-        SMALL(16),
-        MEDIUM(32),
-        LARGE(64)
+    enum class FlagSize(val code: String) {
+        SMALL("16"),
+        MEDIUM("32"),
+        LARGE("64")
     }
 
     fun setCounty(currency: Currency): FlagRequestBuilder {

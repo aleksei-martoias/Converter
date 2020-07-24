@@ -22,7 +22,7 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import kotlinx.android.synthetic.main.exchange_rate_item.view.*
 import java.math.BigDecimal
 
-private const val inputLengthLimit = 14
+private const val INPUT_LENGTH_LIMIT = 14
 
 class ConvertedCurrencyViewHolder(
     private val context: Context,
@@ -40,7 +40,7 @@ class ConvertedCurrencyViewHolder(
     private var amountInputChangesListener: TextWatcher? = null
 
     init {
-        amountInput.filters = arrayOf(CurrencyInputFilter(), LengthFilter(inputLengthLimit))
+        amountInput.filters = arrayOf(CurrencyInputFilter(), LengthFilter(INPUT_LENGTH_LIMIT))
     }
 
     fun unbing() {
