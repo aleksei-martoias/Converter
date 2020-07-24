@@ -3,7 +3,7 @@ package com.alekseimy.converter.main
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.alekseimy.converter.R
-import com.alekseimy.converter.presentation.ConvertedCurrencyFragment
+import com.alekseimy.converter.presentation.ConvertedCurrenciesFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -11,9 +11,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        if (supportFragmentManager.findFragmentByTag(ConvertedCurrencyFragment.TAG) == null) {
+        if (supportFragmentManager.findFragmentByTag(ConvertedCurrenciesFragment.TAG) == null) {
             supportFragmentManager.beginTransaction()
-                .add(R.id.fragment_container, ConvertedCurrencyFragment.newInstance(), ConvertedCurrencyFragment.TAG)
+                .add(R.id.fragment_container, ConvertedCurrenciesFragment.newInstance(), ConvertedCurrenciesFragment.TAG)
                 .commitAllowingStateLoss()
         }
     }

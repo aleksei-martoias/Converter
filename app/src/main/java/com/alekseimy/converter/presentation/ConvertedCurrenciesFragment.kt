@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import com.alekseimy.converter.R
 import org.koin.android.ext.android.inject
 
-class ConvertedCurrencyFragment : Fragment() {
+class ConvertedCurrenciesFragment : Fragment() {
 
     private lateinit var convertedCurrenciesView: ConvertedCurrenciesView
     private val convertedCurrenciesPresenter: ConvertedCurrenciesPresenter by inject()
@@ -48,6 +48,6 @@ class ConvertedCurrencyFragment : Fragment() {
         const val TAG = "ratesFragmentTag"
 
         fun newInstance() =
-            ConvertedCurrencyFragment()
+            ConvertedCurrenciesFragment()
     }
 }

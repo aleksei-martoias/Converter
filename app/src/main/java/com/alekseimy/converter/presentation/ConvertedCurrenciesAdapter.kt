@@ -73,6 +73,11 @@ class ConvertedCurrenciesAdapter(
         }
     }
 
+    override fun onViewRecycled(holder: ConvertedCurrencyViewHolder) {
+        holder.unbing()
+        super.onViewRecycled(holder)
+    }
+
     override fun getItemCount(): Int = convertedCurrencies.size
 
     private class Callback(

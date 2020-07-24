@@ -8,4 +8,6 @@
     <string name="content_desc_country_flag">country flag</string>
     <string name="content_desc_value_to_convert">value to convert</string>
     <string name="converted_currency_description">relative amount of currency</string>
+
+    <string name="currency_input_maximal_dec_part">Two digits after dot is maximum</string>
 </resources>
