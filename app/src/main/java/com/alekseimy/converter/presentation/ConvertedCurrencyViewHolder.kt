@@ -18,7 +18,6 @@ import com.alekseimy.converter.data.FlagRequestBuilder
 import com.alekseimy.converter.model.converter.ConvertedCurrency
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import kotlinx.android.synthetic.main.exchange_rate_item.view.*
 import java.math.BigDecimal
 
@@ -56,9 +55,10 @@ class ConvertedCurrencyViewHolder(
             .load(
                 FlagRequestBuilder.newBuilder()
                     .setCounty(convertedCurrency.currency)
-                    .build())
-
-            .transform(CircleCrop())
+                    .build()
+            )
+            .placeholder(R.drawable.ic_flag_placeholder_40dp)
+            .circleCrop()
             .diskCacheStrategy(DiskCacheStrategy.DATA)
             .into(currencyFlagImg)
     }
