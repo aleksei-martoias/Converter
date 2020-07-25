@@ -47,6 +47,7 @@ class ConvertedCurrenciesAdapter(
             val currentPosition = holder.adapterPosition
             if (currentPosition != NO_POSITION) {
                 listener.onItemClick(convertedCurrencies[currentPosition])
+                holder.startInput()
             }
         }
         holder.listenAmountChanges {
